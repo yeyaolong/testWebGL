@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8></meta>
+        <title>WebGL 基本原理</title>
+        <style>
+            body {
+							margin: 0;
+            }
+            canvas {
+							width: 100vw;
+							height: 100vh;
+							display: block;
+            }
+        </style>
+    </head>
+    <body>
+       <canvas id="canvas"></canvas>
+       <script id="vertex-shader-2d" type="notjs">
+        // 顶点着色器 用投影矩阵描述尺寸
+        // 一个属性变量，将会从缓冲中获取数据
+        attribute vec4 a_position;
+       
+        // 所有着色器都有一个main方法
+        void main() {
+       
+          // gl_Position 是一个顶点着色器主要设置的变量
+          gl_Position = a_position;
+        }
+       
+      </script>
+    
+      <script id="fragment-shader-2d" type="notjs">
+        // 片段着色器
+        // 片断着色器没有默认精度，所以我们需要设置一个精度
+        // mediump是一个不错的默认值，代表“medium precision”（中等精度）
+        precision mediump float;
+       
+        void main() {
+          // gl_FragColor是一个片断着色器主要设置的变量
+          gl_FragColor = vec4(1, 0, 0.5, 1); // 返回“瑞迪施紫色”
+        }
+       
+      </script>
+
+      <script id="vertex-shader-2d_2" type="notjs">
+				attribute vec2 a_position;
+				
+				uniform vec2 u_resolution;	// 定义一个全局变量，u_resolution 作为画布的分辨率
+
+				void main() {
+					/**
+						* a_position /  分辨率
+						* 这样就不需要将a_position 写作-1~+1这种形式，而是可以直接写成像素位置，由**像素位置/分辨率**，转化为 -1~1的值
+						* 相当于我们用顶点着色器代码自动做了一次归一化
+						*/
+
+					// 从像素坐标转换到 0.0 到 1.0
+					vec2 zeroToOne = a_position / u_resolution;
+					// 再把 0 -> 1 转换到 0 -> 2
+					vec2 zeroToTwo = zeroToOne * 2.0;
+					// 把 0 -> 2 转换到-1 -> +1(裁剪空间)
+					vec2 clipSpace = zeroToTwo - 1.0;
+
+					// gl_Position = vec4(clipSpace, 0, 1); // 坐标起点为左下角
+					
+					gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1); // 将坐标起点改为左上角
+
+				}
+       
+      </script>
+      <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+       <!-- <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script> -->
+       <script src="./index3.js"></script>
+    </body>
+</html>
