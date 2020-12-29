@@ -74,9 +74,7 @@ function main() {
         var normalize = false;
         var stride = 0;
         var offset = 0;
-        gl.vertexAttribPointer(
-            positionAttributeLocation, size, type, normalize, stride, offset
-        );
+        gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
         var matrix = m3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
 
