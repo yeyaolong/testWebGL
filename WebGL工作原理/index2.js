@@ -78,8 +78,9 @@ function main() {
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
         var size = 4;
-        var type = gl.FLOAT;
-        var normalize = false;
+        // var type = gl.FLOAT;
+        var type = gl.UNSIGNED_BYTE
+        var normalize = true;
         var stride = 0;
         var offset = 0;
         gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset);
@@ -117,13 +118,13 @@ function setGeometry(gl) {
 }
 
 function setColors(gl) {
-    var r1 = Math.random();
-    var b1 = Math.random();
-    var g1 = Math.random();
+    var r1 = Math.random() * 256;
+    var b1 = Math.random() * 256;
+    var g1 = Math.random() * 256;
 
-    var r2 = Math.random();
-    var b2 = Math.random();
-    var g2 = Math.random();
+    var r2 = Math.random() * 256;
+    var b2 = Math.random() * 256;
+    var g2 = Math.random() * 256;
 
     gl.bufferData(
         gl.ARRAY_BUFFER,
@@ -139,6 +140,16 @@ function setColors(gl) {
         ),
         gl.STATIC_DRAW
     );
+    // gl.bufferData(
+    //     gl.ARRAY_BUFFER,
+    //     new Float32Array(
+    //       [ Math.random(), Math.random(), Math.random(), 1,
+    //         Math.random(), Math.random(), Math.random(), 1,
+    //         Math.random(), Math.random(), Math.random(), 1,
+    //         Math.random(), Math.random(), Math.random(), 1,
+    //         Math.random(), Math.random(), Math.random(), 1,
+    //         Math.random(), Math.random(), Math.random(), 1]),
+    //     gl.STATIC_DRAW);
 }
 
 main();
