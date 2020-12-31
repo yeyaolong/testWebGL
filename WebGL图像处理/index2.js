@@ -18,7 +18,7 @@ function render(image) {
   }
 
   // setup GLSL program
-  var program = webglUtils.createProgramFromScripts(gl, ["vertex-shader-2d", "fragment-shader-2d"]);
+  var program = webglUtils.createProgramFromScripts(gl, ["vertex-shader-2d", "fragment-shader-2d_2"]);
 
   // look up where the vertex data needs to go.
   var positionLocation = gl.getAttribLocation(program, "a_position");
@@ -59,6 +59,7 @@ function render(image) {
 
   // lookup uniforms
   var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+  var textureSizeLocation = gl.getUniformLocation(program, "u_textureSize");
 
   webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
@@ -103,8 +104,9 @@ function render(image) {
       texcoordLocation, size, type, normalize, stride, offset);
 
   // set the resolution
-  gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height); // 设置图像大小
-
+  gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height); // 
+  // 设置图像大小
+  gl.uniform2f(textureSizeLocation, image.width, image.height);
   // Draw the rectangle.
   var primitiveType = gl.TRIANGLES;
   var offset = 0;
